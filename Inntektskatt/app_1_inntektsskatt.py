@@ -133,7 +133,7 @@ def main():
 #########################################################################################
 if __name__ == "__main__":
     st.set_page_config(
-        "Trinnskatts Beregning",
+        "Inntektsskatt",
         "📊",
         initial_sidebar_state="expanded",
         layout="wide",

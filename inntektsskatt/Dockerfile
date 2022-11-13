@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 RUN git clone https://github.com/quisten/PensjonsKalkulator.git .
 RUN pip3 install -r requirements.txt
-ENTRYPOINT ["streamlit", "run", "app_1_inntektsskatt.py", "--server.port=8501", "--server.address=0.0.0.0"]
+#ENTRYPOINT ["streamlit", "run", "inntektsskatt\app_1_inntektsskatt.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.enableCORS=False"]
+ENTRYPOINT ["streamlit", "run", "inntektsskatt\app_1_inntektsskatt.py", "--server.port=8501"]
 
 # Based on https://docs.streamlit.io/knowledge-base/tutorials/deploy/docker

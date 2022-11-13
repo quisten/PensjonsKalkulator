@@ -6,8 +6,8 @@
 #########################################################################################
 
 import math
+import pandas as pd
 import streamlit as st
-#import pandas as pd
 #import matplotlib.pyplot as plt
 
 #########################################################################################
@@ -132,7 +132,7 @@ def main():
 #########################################################################################
 if __name__ == "__main__":
     st.set_page_config(
-        "Inntektsskatt",
+        "Hei..Inntektsskatt",
         "📊",
         initial_sidebar_state="expanded",
         layout="wide",

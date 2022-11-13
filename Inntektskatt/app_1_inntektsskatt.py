@@ -7,8 +7,8 @@
 
 import math
 import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
+#import pandas as pd
+#import matplotlib.pyplot as plt
 
 #########################################################################################
 # Constants  
@@ -24,7 +24,6 @@ taxProgressiveTable_2022 = [[1.7,  190350, 267899],
                             [13.4, 643800, 969199],
                             [16.4, 969200, 1999999],
                             [17.4, 2000000, math.inf]]
-
 
 #########################################################################################
 # Functions  

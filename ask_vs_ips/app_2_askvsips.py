@@ -4,7 +4,9 @@ import streamlit as st
 # Main
 #########################################################################################
 def main():
-    st.title("WIP")
+    st.title("Sparing i ASK vs IPS")
+    st.text("For langsiktig sparing myntet på pensjon så vil det være fordeler og ulemper mellom IPS og ASK")
+    st.text("ASK vil gjøre pengene tilgjenglig mens IPS gir noen skattemessige fordeler som er utsatt for politisk taskenspilleri. ")
 
 #########################################################################################
 # Init 

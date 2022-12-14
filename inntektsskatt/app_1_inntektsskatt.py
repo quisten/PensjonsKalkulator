@@ -35,7 +35,6 @@ def getTaxTable(grossSalary, table):
     taxComputation = list()                             # for modification by adding taxes per row
     baseTax = grossSalary*((taxBase+taxWelfare)/100.0)
 
-    #st.write("Trinn 0:", baseTax)
     for step, row in enumerate(table):
         tax_step = max(0, min(grossSalary, row[2])-row[1])*(row[0]/100.0)
         if tax_step == 0:
@@ -56,6 +55,7 @@ def getTaxTable(grossSalary, table):
 def main(): 
     
     st.title("Forenklet Inntektsskatteberegning")
+
     ####################################################################################
     # Sidebar | Inputs
     ####################################################################################    
@@ -104,16 +104,16 @@ def main():
 
     with st.expander("Beregning av Skatt (kun basert på arbeidsinntekt)", expanded=True): 
 
+    
         adjustGrossSalary = grossSalary*(52.0-vacationPeriod)/52.0
         alminneligInntekt = adjustGrossSalary+pensjonsGrunnlag+feriePengeGrunnlag
-        
+        if benefitsEKOM:
+            alminneligInntekt += benefitsEKOM_rate
+
         st.write("Alminnelig Inntekt: %s" % f'{int(alminneligInntekt):,}')
         st.write("Skattepliktig Inntekt: %s  (minus personFradrag)" % f'{int(alminneligInntekt-personFradrag):,}')
         (totalTax, taxComputation) = getTaxTable(alminneligInntekt-personFradrag, taxProgressiveTable_2022)
         netSalary = grossSalary-totalTax
-
-        if benefitsEKOM:
-            netSalary -= benefitsEKOM_rate
 
         df = pd.DataFrame(taxComputation, columns=['Skatt %', 'Fra', 'Til', 'Oppnådd skatt'], index=[("Trinn %d" % (x+1)) for x in range(len(taxComputation))])
         st.table(df)
@@ -121,6 +121,19 @@ def main():
         st.write("Skatteprosent:...%.2f%%" % float((totalTax/grossSalary)*100.0))
         st.write("Maks Lønn Per Mnd:.... %s kr" % f'{int(netSalary/12.0):,}')
         st.write("Allminnelig inntekt innbefatter flere vederlag enn arbeidsinntekt, derfor er skatt max lønn høyere enn det du ser på lønnslippen.")
+
+
+        # regne ut marginal skatt - rotete
+        grossSalary_add = grossSalary+1
+        adjustGrossSalary = grossSalary_add*(52.0-vacationPeriod)/52.0
+        alminneligInntekt = adjustGrossSalary+pensjonsGrunnlag+feriePengeGrunnlag
+        if benefitsEKOM:
+            alminneligInntekt += benefitsEKOM_rate
+        (totalTax, taxComputation) = getTaxTable(alminneligInntekt-personFradrag, taxProgressiveTable_2022)
+        netSalary_add = grossSalary_add-totalTax
+
+        diff = (1.-(netSalary_add-netSalary))*100.0
+        st.write("Marginal skatt: %.2f%%" % diff)
 
     st.write("https://www.skatteetaten.no/satser/trinnskatt/#rateShowYear")
     st.write("Version 0.0 alpha")
@@ -132,7 +145,7 @@ def main():
 #########################################################################################
 if __name__ == "__main__":
     st.set_page_config(
-        "Hei..Inntektsskatt",
+        "App-1-Inntektsskatt",
         "📊",
         initial_sidebar_state="expanded",
         layout="wide",
